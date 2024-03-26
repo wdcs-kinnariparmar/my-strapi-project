@@ -805,6 +805,11 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'manyToMany',
       'api::restaurant.restaurant'
     >;
+    manus: Attribute.Relation<
+      'api::category.category',
+      'manyToMany',
+      'api::manu.manu'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -819,6 +824,38 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'oneToOne',
       'admin::user'
     > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiManuManu extends Schema.CollectionType {
+  collectionName: 'manus';
+  info: {
+    singularName: 'manu';
+    pluralName: 'manus';
+    displayName: 'Manu';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required & Attribute.Unique;
+    categories: Attribute.Relation<
+      'api::manu.manu',
+      'manyToMany',
+      'api::category.category'
+    >;
+    restaurants: Attribute.Relation<
+      'api::manu.manu',
+      'manyToMany',
+      'api::category.category'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::manu.manu', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::manu.manu', 'oneToOne', 'admin::user'> &
       Attribute.Private;
   };
 }
@@ -878,6 +915,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
       'api::category.category': ApiCategoryCategory;
+      'api::manu.manu': ApiManuManu;
       'api::restaurant.restaurant': ApiRestaurantRestaurant;
     }
   }
