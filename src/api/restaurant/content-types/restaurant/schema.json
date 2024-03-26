@@ -24,6 +24,12 @@
       "relation": "manyToMany",
       "target": "api::category.category",
       "mappedBy": "restaurants"
+    },
+    "manus": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::manu.manu",
+      "mappedBy": "restaurants"
     }
   }
 }

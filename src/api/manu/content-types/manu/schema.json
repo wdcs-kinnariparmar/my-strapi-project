@@ -4,7 +4,8 @@
   "info": {
     "singularName": "manu",
     "pluralName": "manus",
-    "displayName": "Manu"
+    "displayName": "Manu",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -25,7 +26,7 @@
     "restaurants": {
       "type": "relation",
       "relation": "manyToMany",
-      "target": "api::category.category",
+      "target": "api::restaurant.restaurant",
       "inversedBy": "manus"
     }
   }

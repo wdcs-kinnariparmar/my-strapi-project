@@ -834,6 +834,7 @@ export interface ApiManuManu extends Schema.CollectionType {
     singularName: 'manu';
     pluralName: 'manus';
     displayName: 'Manu';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -848,7 +849,7 @@ export interface ApiManuManu extends Schema.CollectionType {
     restaurants: Attribute.Relation<
       'api::manu.manu',
       'manyToMany',
-      'api::category.category'
+      'api::restaurant.restaurant'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -877,6 +878,11 @@ export interface ApiRestaurantRestaurant extends Schema.CollectionType {
       'api::restaurant.restaurant',
       'manyToMany',
       'api::category.category'
+    >;
+    manus: Attribute.Relation<
+      'api::restaurant.restaurant',
+      'manyToMany',
+      'api::manu.manu'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
