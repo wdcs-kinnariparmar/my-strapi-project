@@ -590,6 +590,53 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -741,46 +788,31 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
+export interface ApiAboutAbout extends Schema.SingleType {
+  collectionName: 'abouts';
   info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
+    singularName: 'about';
+    pluralName: 'abouts';
+    displayName: 'About';
     description: '';
   };
   options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
+    draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
+    Description: Attribute.Blocks;
+    Title: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::about.about',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::about.about',
       'oneToOne',
       'admin::user'
     > &
@@ -794,21 +826,22 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     singularName: 'category';
     pluralName: 'categories';
     displayName: 'Category';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    Name: Attribute.String & Attribute.Required & Attribute.Unique;
-    restaurants: Attribute.Relation<
-      'api::category.category',
-      'manyToMany',
-      'api::restaurant.restaurant'
-    >;
+    name: Attribute.String & Attribute.Required & Attribute.Unique;
     manus: Attribute.Relation<
       'api::category.category',
       'manyToMany',
       'api::manu.manu'
+    >;
+    restaurants: Attribute.Relation<
+      'api::category.category',
+      'manyToMany',
+      'api::restaurant.restaurant'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -861,19 +894,199 @@ export interface ApiManuManu extends Schema.CollectionType {
   };
 }
 
+export interface ApiOrderOrder extends Schema.CollectionType {
+  collectionName: 'orders';
+  info: {
+    singularName: 'order';
+    pluralName: 'orders';
+    displayName: 'Order';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    email: Attribute.Email & Attribute.Required;
+    paymentInfo: Attribute.JSON;
+    products: Attribute.JSON & Attribute.Required;
+    address: Attribute.Text;
+    name: Attribute.String & Attribute.Required;
+    transactionId: Attribute.UID & Attribute.Required;
+    amount: Attribute.Integer & Attribute.Required;
+    status: Attribute.Enumeration<['Pending', 'Succeed', 'Failed']> &
+      Attribute.Required;
+    orderId: Attribute.UID & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPackageDetailPackageDetail extends Schema.CollectionType {
+  collectionName: 'package_details';
+  info: {
+    singularName: 'package-detail';
+    pluralName: 'package-details';
+    displayName: 'Package Detail';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    duration: Attribute.DateTime & Attribute.Required;
+    amount: Attribute.Integer & Attribute.Required;
+    isActive: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    isDelete: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    description: Attribute.Blocks;
+    category: Attribute.Enumeration<['Preminum', 'Standard']> &
+      Attribute.Required;
+    payment_detail: Attribute.Relation<
+      'api::package-detail.package-detail',
+      'oneToOne',
+      'api::payment-detail.payment-detail'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::package-detail.package-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::package-detail.package-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPaymentDetailPaymentDetail extends Schema.CollectionType {
+  collectionName: 'payment_details';
+  info: {
+    singularName: 'payment-detail';
+    pluralName: 'payment-details';
+    displayName: 'Payment Detail';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    package_detail: Attribute.Relation<
+      'api::payment-detail.payment-detail',
+      'oneToOne',
+      'api::package-detail.package-detail'
+    >;
+    purchaseDate: Attribute.DateTime & Attribute.Required;
+    paymentMethod: Attribute.String & Attribute.Required;
+    document: Attribute.Media;
+    transactionId: Attribute.UID<
+      'api::payment-detail.payment-detail',
+      'paymentMethod'
+    > &
+      Attribute.Required;
+    packageId: Attribute.Relation<
+      'api::payment-detail.payment-detail',
+      'oneToOne',
+      'api::package-detail.package-detail'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::payment-detail.payment-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::payment-detail.payment-detail',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiProductProduct extends Schema.CollectionType {
+  collectionName: 'products';
+  info: {
+    singularName: 'product';
+    pluralName: 'products';
+    displayName: 'Product';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required & Attribute.Unique;
+    slug: Attribute.UID & Attribute.Required;
+    description: Attribute.Blocks;
+    image: Attribute.Media;
+    category: Attribute.Enumeration<
+      ['tshirt', 'mug', 'shoes', 'table', 'dress', 'wall paper']
+    > &
+      Attribute.Required &
+      Attribute.DefaultTo<'wall paper'>;
+    size: Attribute.String;
+    color: Attribute.Enumeration<
+      ['red', 'black', 'white', 'brown', 'green', 'blue', 'pink']
+    > &
+      Attribute.Required;
+    price: Attribute.Integer & Attribute.Required;
+    availableQty: Attribute.Integer & Attribute.Required;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::product.product',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiRestaurantRestaurant extends Schema.CollectionType {
   collectionName: 'restaurants';
   info: {
     singularName: 'restaurant';
     pluralName: 'restaurants';
     displayName: 'Restaurant';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     name: Attribute.String & Attribute.Required & Attribute.Unique;
-    Description: Attribute.Blocks;
     categories: Attribute.Relation<
       'api::restaurant.restaurant',
       'manyToMany',
@@ -902,6 +1115,54 @@ export interface ApiRestaurantRestaurant extends Schema.CollectionType {
   };
 }
 
+export interface ApiScheduleDemoScheduleDemo extends Schema.CollectionType {
+  collectionName: 'schedule_demos';
+  info: {
+    singularName: 'schedule-demo';
+    pluralName: 'schedule-demos';
+    displayName: 'Schedule Demo';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    email: Attribute.Email & Attribute.Required & Attribute.Unique;
+    mobileNo: Attribute.Integer &
+      Attribute.Required &
+      Attribute.Unique &
+      Attribute.SetMinMax<
+        {
+          min: 10;
+          max: 10;
+        },
+        number
+      >;
+    companyName: Attribute.String & Attribute.Required;
+    scheduleDate: Attribute.DateTime & Attribute.Required;
+    status: Attribute.Enumeration<
+      ['InProgress', 'IsPending', 'Done', 'Rescheduled', 'Cancel']
+    > &
+      Attribute.Required &
+      Attribute.DefaultTo<'IsPending'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::schedule-demo.schedule-demo',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::schedule-demo.schedule-demo',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -916,13 +1177,19 @@ declare module '@strapi/types' {
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
+      'api::about.about': ApiAboutAbout;
       'api::category.category': ApiCategoryCategory;
       'api::manu.manu': ApiManuManu;
+      'api::order.order': ApiOrderOrder;
+      'api::package-detail.package-detail': ApiPackageDetailPackageDetail;
+      'api::payment-detail.payment-detail': ApiPaymentDetailPaymentDetail;
+      'api::product.product': ApiProductProduct;
       'api::restaurant.restaurant': ApiRestaurantRestaurant;
+      'api::schedule-demo.schedule-demo': ApiScheduleDemoScheduleDemo;
     }
   }
 }

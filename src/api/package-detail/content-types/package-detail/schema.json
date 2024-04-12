@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "package_details",
+  "info": {
+    "singularName": "package-detail",
+    "pluralName": "package-details",
+    "displayName": "Package Detail"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "duration": {
+      "type": "datetime",
+      "required": true
+    },
+    "amount": {
+      "type": "integer",
+      "required": true
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "isDelete": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "Preminum",
+        "Standard"
+      ],
+      "required": true
+    },
+    "payment_detail": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::payment-detail.payment-detail",
+      "mappedBy": "packageId"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "schedule_demos",
+  "info": {
+    "singularName": "schedule-demo",
+    "pluralName": "schedule-demos",
+    "displayName": "Schedule Demo"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true,
+      "unique": true
+    },
+    "mobileNo": {
+      "type": "integer",
+      "required": true,
+      "max": 10,
+      "min": 10,
+      "unique": true
+    },
+    "companyName": {
+      "type": "string",
+      "required": true
+    },
+    "scheduleDate": {
+      "type": "datetime",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "InProgress",
+        "IsPending",
+        "Done",
+        "Rescheduled",
+        "Cancel"
+      ],
+      "default": "IsPending",
+      "required": true
+    }
+  }
+}

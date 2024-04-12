@@ -27,7 +27,7 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::restaurant.restaurant",
-      "inversedBy": "manus"
+      "mappedBy": "manus"
     }
   }
 }

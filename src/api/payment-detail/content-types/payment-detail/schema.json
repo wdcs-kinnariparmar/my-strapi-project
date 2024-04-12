@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payment_details",
+  "info": {
+    "singularName": "payment-detail",
+    "pluralName": "payment-details",
+    "displayName": "Payment Detail",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "package_detail": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::package-detail.package-detail"
+    },
+    "purchaseDate": {
+      "required": true,
+      "type": "datetime"
+    },
+    "paymentMethod": {
+      "type": "string",
+      "required": true
+    },
+    "document": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "transactionId": {
+      "type": "uid",
+      "targetField": "paymentMethod",
+      "required": true
+    },
+    "packageId": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::package-detail.package-detail",
+      "inversedBy": "payment_detail"
+    }
+  }
+}
