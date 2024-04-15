@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contacts",
+  "info": {
+    "singularName": "contact-us",
+    "pluralName": "contacts",
+    "displayName": "Contact Us",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "company": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "integer",
+      "required": true
+    },
+    "message": {
+      "type": "blocks"
+    }
+  }
+}

@@ -833,11 +833,6 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String & Attribute.Required & Attribute.Unique;
-    manus: Attribute.Relation<
-      'api::category.category',
-      'manyToMany',
-      'api::manu.manu'
-    >;
     restaurants: Attribute.Relation<
       'api::category.category',
       'manyToMany',
@@ -861,35 +856,37 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
   };
 }
 
-export interface ApiManuManu extends Schema.CollectionType {
-  collectionName: 'manus';
+export interface ApiContactUsContactUs extends Schema.CollectionType {
+  collectionName: 'contacts';
   info: {
-    singularName: 'manu';
-    pluralName: 'manus';
-    displayName: 'Manu';
+    singularName: 'contact-us';
+    pluralName: 'contacts';
+    displayName: 'Contact Us';
     description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String & Attribute.Required & Attribute.Unique;
-    categories: Attribute.Relation<
-      'api::manu.manu',
-      'manyToMany',
-      'api::category.category'
-    >;
-    restaurants: Attribute.Relation<
-      'api::manu.manu',
-      'manyToMany',
-      'api::restaurant.restaurant'
-    >;
+    name: Attribute.String & Attribute.Required;
+    email: Attribute.Email & Attribute.Required;
+    company: Attribute.String & Attribute.Required;
+    phone: Attribute.Integer & Attribute.Required;
+    message: Attribute.Blocks;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::manu.manu', 'oneToOne', 'admin::user'> &
+    createdBy: Attribute.Relation<
+      'api::contact-us.contact-us',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
-    updatedBy: Attribute.Relation<'api::manu.manu', 'oneToOne', 'admin::user'> &
+    updatedBy: Attribute.Relation<
+      'api::contact-us.contact-us',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
   };
 }
@@ -1092,11 +1089,6 @@ export interface ApiRestaurantRestaurant extends Schema.CollectionType {
       'manyToMany',
       'api::category.category'
     >;
-    manus: Attribute.Relation<
-      'api::restaurant.restaurant',
-      'manyToMany',
-      'api::manu.manu'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1183,7 +1175,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::about.about': ApiAboutAbout;
       'api::category.category': ApiCategoryCategory;
-      'api::manu.manu': ApiManuManu;
+      'api::contact-us.contact-us': ApiContactUsContactUs;
       'api::order.order': ApiOrderOrder;
       'api::package-detail.package-detail': ApiPackageDetailPackageDetail;
       'api::payment-detail.payment-detail': ApiPaymentDetailPaymentDetail;

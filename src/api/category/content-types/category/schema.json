@@ -17,12 +17,6 @@
       "required": true,
       "unique": true
     },
-    "manus": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::manu.manu",
-      "mappedBy": "categories"
-    },
     "restaurants": {
       "type": "relation",
       "relation": "manyToMany",

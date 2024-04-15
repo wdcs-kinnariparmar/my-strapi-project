@@ -22,12 +22,6 @@
       "relation": "manyToMany",
       "target": "api::category.category",
       "inversedBy": "restaurants"
-    },
-    "manus": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::manu.manu",
-      "inversedBy": "restaurants"
     }
   }
 }
