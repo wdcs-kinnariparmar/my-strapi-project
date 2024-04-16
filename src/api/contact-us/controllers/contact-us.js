@@ -22,9 +22,9 @@ module.exports = {
     try {
       const { contactInfo } = ctx.request.body;
 
-    if (!contactInfo) {
-      throw new Error('Missing "contactInfo" property in request body');
-    }
+      if (!contactInfo) {
+        return ('Missing "contactInfo" property in request body');
+      }
 
       const data = await strapi
       // @ts-ignore
@@ -38,24 +38,37 @@ module.exports = {
   },
 
   updateContactUs: async (ctx, next) => {
+    const { contactInfo } = ctx.request.body;
+    const { id } = ctx.params;
+
+    if (!contactInfo || !id) {
+      ctx.status = 400;
+      ctx.body = 'Missing "contactInfo" or "id" property in request body';
+      return;
+    }
+
     try {
+
       const data = await strapi
       // @ts-ignore
       .service("api::contact-us.contact-us")
-      .updateContactUs();
+      .updateContactUs(id, contactInfo);
 
       ctx.body = data;
     } catch (err) {
-      ctx.body = err;
+      ctx.status = 500;
+      ctx.body = { message: err.message || 'An error occurred during the update process' };
     }
   },
 
   deleteContactUs: async (ctx, next) => {
     try {
+      const { id } = ctx.params;
+
       const data = await strapi
       // @ts-ignore
       .service("api::contact-us.contact-us")
-      .deleteContactUs();
+      .deleteContactUs(id);
 
       ctx.body = data;
     } catch (err) {

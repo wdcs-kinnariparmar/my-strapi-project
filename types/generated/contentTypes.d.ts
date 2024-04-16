@@ -891,6 +891,41 @@ export interface ApiContactUsContactUs extends Schema.CollectionType {
   };
 }
 
+export interface ApiContactUserContactUser extends Schema.CollectionType {
+  collectionName: 'contact_users';
+  info: {
+    singularName: 'contact-user';
+    pluralName: 'contact-users';
+    displayName: 'Contact User';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String & Attribute.Required;
+    email: Attribute.Email & Attribute.Required & Attribute.Unique;
+    isDeleted: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::contact-user.contact-user',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::contact-user.contact-user',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiOrderOrder extends Schema.CollectionType {
   collectionName: 'orders';
   info: {
@@ -1176,6 +1211,7 @@ declare module '@strapi/types' {
       'api::about.about': ApiAboutAbout;
       'api::category.category': ApiCategoryCategory;
       'api::contact-us.contact-us': ApiContactUsContactUs;
+      'api::contact-user.contact-user': ApiContactUserContactUser;
       'api::order.order': ApiOrderOrder;
       'api::package-detail.package-detail': ApiPackageDetailPackageDetail;
       'api::payment-detail.payment-detail': ApiPaymentDetailPaymentDetail;

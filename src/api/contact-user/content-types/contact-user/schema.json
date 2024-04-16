@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact_users",
+  "info": {
+    "singularName": "contact-user",
+    "pluralName": "contact-users",
+    "displayName": "Contact User",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true,
+      "unique": true
+    },
+    "isDeleted": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    }
+  }
+}

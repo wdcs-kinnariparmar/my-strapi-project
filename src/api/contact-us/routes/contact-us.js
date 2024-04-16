@@ -20,7 +20,7 @@ module.exports = {
     },
     {
       method: 'PUT',
-      path: '/contact-us',
+      path: '/contact-us/:id',
       handler: 'contact-us.updateContactUs',
       config: {
         policies: [],
@@ -29,7 +29,7 @@ module.exports = {
     },
     {
       method: 'DELETE',
-      path: '/contact-us',
+      path: '/contact-us/:id',
       handler: 'contact-us.deleteContactUs',
       config: {
         policies: [],

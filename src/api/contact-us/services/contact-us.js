@@ -18,43 +18,58 @@ module.exports = () => ({
     },
 
     createContactUs: async (contactInfo) => {
-        console.log("contactInfo",contactInfo);
         try {
-            // const entry = await strapi.entityService.create(
-            //     // @ts-ignore
-            //     "api::contact-us.contact-us",
-            //     contactInfo
-            //   );
-            // console.log("entries", entry);
+            const entity = await strapi.entityService.create(
+                // @ts-ignore
+                "api::contact-us.contact-us",
+                {data: contactInfo}
+            );
 
-            return { message: "Contact information created successfully", data: {} };
-
+            return { message: "Contact information created successfully", data: entity };
         } catch (err) {
-            return err;
+            console.error('Error creating contact information:', err); 
+            return { error: err.message };
         }
     },
 
-    updateContactUs: async () => {
+    updateContactUs: async (id, updatedInfo) => {
+        
+        if (!id || !updatedInfo) {
+            return { error: 'Missing required data: id and updated information' };
+        }
+
         try {
-            const entries = await strapi.entityService.findMany(
-                // @ts-ignore
-                "api::contact-us.contact-us"
-            )
-            return entries
+
+            const entry = await strapi.entityService.update(
+            // @ts-ignore
+            "api::contact-us.contact-us",
+            id,
+            { data: updatedInfo }
+            );
+
+            return { message: "Contact information updated successfully", data: entry };
         } catch (err) {
-            return err;
+            console.error('Error updating contact information:', err); 
+            return { error: err.message };
         }
     },
 
-    deleteContactUs: async () => {
+    deleteContactUs: async (id) => {
+        if (!id) {
+            return { error: 'Missing required data: id' };
+        }
+
         try {
-            const entries = await strapi.entityService.findMany(
+            const entry = await strapi.entityService.delete(
                 // @ts-ignore
-                "api::contact-us.contact-us"
-            )
-            return entries
+                "api::contact-us.contact-us",
+                id
+            );
+
+            return { message: "Contact information deleted successfully" };
         } catch (err) {
-            return err;
+            console.error('Error deleting contact information:', err);
+            return { error: err.message }; 
         }
     }
 });
