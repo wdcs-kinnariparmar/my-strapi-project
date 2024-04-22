@@ -838,6 +838,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'manyToMany',
       'api::restaurant.restaurant'
     >;
+    category_image: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1075,7 +1076,7 @@ export interface ApiProductProduct extends Schema.CollectionType {
     title: Attribute.String & Attribute.Required & Attribute.Unique;
     slug: Attribute.UID & Attribute.Required;
     description: Attribute.Blocks;
-    image: Attribute.Media;
+    product_image: Attribute.Media;
     category: Attribute.Enumeration<
       ['tshirt', 'mug', 'shoes', 'table', 'dress', 'wall paper']
     > &
@@ -1124,6 +1125,7 @@ export interface ApiRestaurantRestaurant extends Schema.CollectionType {
       'manyToMany',
       'api::category.category'
     >;
+    shop_image: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

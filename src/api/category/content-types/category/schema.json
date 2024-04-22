@@ -22,6 +22,16 @@
       "relation": "manyToMany",
       "target": "api::restaurant.restaurant",
       "mappedBy": "categories"
+    },
+    "category_image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }
