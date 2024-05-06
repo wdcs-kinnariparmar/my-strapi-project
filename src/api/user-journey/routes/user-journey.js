@@ -1,10 +1,10 @@
 'use strict';
 
 /**
- * about router
+ * user-journey router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
 // @ts-ignore
-module.exports = createCoreRouter('api::about.about');
+module.exports = createCoreRouter('api::user-journey.user-journey');

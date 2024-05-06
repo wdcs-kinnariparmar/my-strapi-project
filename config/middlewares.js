@@ -14,14 +14,14 @@ module.exports = [
             'data:',
             'blob:',
             'dl.airtable.com',
-            'real-estate-crm.s3.ap-south-1.amazonaws.com',
+            `${process.env.AWS_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com`
           ],
           'media-src': [
             "'self'",
             'data:',
             'blob:',
             'dl.airtable.com',
-            'real-estate-crm.s3.ap-south-1.amazonaws.com',
+            `${process.env.AWS_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com`
           ],
           upgradeInsecureRequests: null,
         },
@@ -38,7 +38,7 @@ module.exports = [
   'strapi::public',
 
   // custom middleware that does not require any configuration
-  'global::my-middleware', 
+  // 'global::my-middleware',
 
-  'strapi::security',
+  'strapi::security'
 ];

@@ -1,4 +1,16 @@
 module.exports = ({ env }) => ({
+  email: {
+    config: {
+      provider: 'sendgrid',
+      providerOptions: {
+        apiKey: env('SENDGRID_API_KEY'),
+      },
+      settings: {
+        defaultFrom: 'bhavesh.dhamecha@codezeros.com',
+        defaultReplyTo: 'bhavesh.dhamecha@codezeros.com',
+      },
+    },
+  },
   upload: {
     config: {
       provider: 'aws-s3',

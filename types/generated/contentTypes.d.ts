@@ -1192,6 +1192,37 @@ export interface ApiScheduleDemoScheduleDemo extends Schema.CollectionType {
   };
 }
 
+export interface ApiUserJourneyUserJourney extends Schema.CollectionType {
+  collectionName: 'user_journeys';
+  info: {
+    singularName: 'user-journey';
+    pluralName: 'user-journeys';
+    displayName: 'user_journey';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+    note: Attribute.Text;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-journey.user-journey',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-journey.user-journey',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -1220,6 +1251,7 @@ declare module '@strapi/types' {
       'api::product.product': ApiProductProduct;
       'api::restaurant.restaurant': ApiRestaurantRestaurant;
       'api::schedule-demo.schedule-demo': ApiScheduleDemoScheduleDemo;
+      'api::user-journey.user-journey': ApiUserJourneyUserJourney;
     }
   }
 }
