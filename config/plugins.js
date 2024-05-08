@@ -1,14 +1,32 @@
 module.exports = ({ env }) => ({
+  // email: {
+  //   config: {
+  //     provider: 'sendgrid',
+  //     providerOptions: {
+  //       apiKey: env('SENDGRID_API_KEY'),
+  //     },
+  //     settings: {
+  //       defaultFrom: 'bhavesh.dhamecha@codezeros.com',
+  //       defaultReplyTo: 'bhavesh.dhamecha@codezeros.com',
+  //     },
+  //   },
+  // },
   email: {
     config: {
-      provider: 'sendgrid',
+      provider: 'nodemailer',
       providerOptions: {
-        apiKey: env('SENDGRID_API_KEY'),
+        host: env('EMAIL_SMTP_HOST', 'smtp.gmail.com'),
+        port: env('EMAIL_SMTP_PORT', 465),
+        secure: true, // Use secure connection (TLS)
+        auth: {
+          user: env('EMAIL_SMTP_USER'),
+          pass: env('EMAIL_SMTP_PASSWORD'),
+        },
       },
-      settings: {
-        defaultFrom: 'bhavesh.dhamecha@codezeros.com',
-        defaultReplyTo: 'bhavesh.dhamecha@codezeros.com',
-      },
+    },
+    settings: {
+      defaultFrom: env('EMAIL_ADDRESS_FROM', "kinnari.parmar@webcluesinfotech.com"), //sender email address
+      defaultReplyTo: env('EMAIL_ADDRESS_REPLY', "kinnari.parmar@webcluesinfotech.com"), // Optional reply-to address
     },
   },
   upload: {

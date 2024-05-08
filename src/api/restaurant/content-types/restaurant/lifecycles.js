@@ -6,9 +6,20 @@ module.exports = {
                 // @ts-ignore
                 "api::user-journey.user-journey",
                 {data: {
-                    title: `create a ${result.name} restaurant`
+                    title: `restaurant a ${result.name} restaurant`
                 }}
             );
+        }
+        try {
+            await strapi.plugins['email'].services.email.send({
+             // to: recipients
+                to: "kinnari.parmar@webcluesinfotech.com",
+                from: "kinnari.parmar@webcluesinfotech.com",
+                subject: `A New ${result.name} Restaurant Created !`,
+                text: `the Restaurant Name is ${result.name}`,
+            })
+        } catch(err) {
+            console.log(err)
         }
     },
     async afterUpdate(event) {
